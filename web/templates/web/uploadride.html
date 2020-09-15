@@ -1,0 +1,24 @@
+{% extends 'web/base.html'%}
+
+{% block content %}
+<a href="../"><button type="submit" class="btn btn-dark" style="position: absolute; right: 0;">Back</button></a>
+<div class="container">
+{% if user.is_authenticated %}
+
+    <h1><u>Upload Ride</u> </h1>
+
+<a href="./ip/"><h4 style = "color:black"><b>Individual Pursuit</b></h4></a>
+    <a href="./tt/"><h4 style = "color:black"><b>Time Trial</b></h4></a>
+<a href="./flying200/"><h4 style = "color:black"><b>Flying 200m</b></h4></a>
+<a href="./teampursuit/"><h4 style = "color:black"><b>Team Pursuit</b></h4></a>
+<a href="./teamsprint/"><h4 style = "color:black"><b>Team Sprint</b></h4></a>
+    <br>
+<hr>
+    <h1><u>Rider</u></h1>
+    <a href="../newrider/"><h4 style = "color:black"><b>Add Rider</b></h4></a>
+</div>
+
+
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends 'web/base.html'%}
+
+{% block content %}
+<a href="../uploadride/"><button type="submit" class="btn btn-dark" style="position: absolute; right: 0;">Back</button></a>
+
+<div class="container">
+{% if user.is_authenticated %}
+
+<h1>New Rider</h1>
+
+<h2> {{ error }}</h2>
+
+<form method = 'POST'>
+    {% csrf_token %}
+{{ form.as_p}}
+    <button type="submit">Submit</button>
+</form>
+
+{% endif %}
+</div>
+{% endblock %}

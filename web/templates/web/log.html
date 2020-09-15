@@ -1,0 +1,25 @@
+{% extends 'web/base.html'%}
+
+{% block content %}
+
+<H1>ADMIN-LOG</H1>
+{% for rider in riders %}
+<b>{{ rider.last_modified }} - {{ rider.name }}({{ rider.state }}) - {{ rider.user }} - {{ rider.velodrome }} </b><br>
+{% if rider.ip_time_second != None %}
+<b>IP:</b> {{ rider.ip_time }}:{{ rider.ip_time_second }} <b>temp:</b>{{ rider.ip_temp }} <b>BP:</b>{{ rider.ip_bp }} <b>Humdity:</b>{{ rider.ip_humdity }}<br>
+{% endif %}
+{% if rider.tt200_time != None %}
+<b>Flying 200m:</b> {{ rider.tt200_time }} <b>temp:</b>{{ rider.tt200_temp }} <b>BP:</b>{{ rider.tt200_bp }} <b>Humdity:</b>{{ rider.tt200_humdity }}<br>
+{% endif %}
+{% if rider.tt200_time != None %}
+<b>Team Sprint:</b> {{ rider.ts_time_time }} <b>temp:</b>{{ rider.ts_time_temp }} <b>BP:</b>{{ rider.ts_time_bp }} <b>Humdity:</b>{{ rider.ts_time_humdity }}<br>
+{% endif %}
+{% if rider.tp_time_second != None %}
+<b>TP:</b> {{ rider.tp_time }}:{{ rider.tp_time_second }} <b>temp:</b>{{ rider.tp_temp }} <b>BP:</b>{{ rider.tp_bp }} <b>Humdity:</b>{{ rider.tp_humdity }}<br>
+{% endif %}
+{% if rider.tt_time_second != None %}
+<b>TT:</b> {{ rider.tt_time }}:{{ rider.tt_time_second }} <b>temp:</b>{{ rider.tt_temp }} <b>BP:</b>{{ rider.tt_bp }} <b>Humdity:</b>{{ rider.tt_humdity }}<br>
+{% endif %}
+<hr>
+{% endfor %}
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends 'web/base.html'%}
+
+{% block content %}
+<a href="../"><button type="submit" class="btn btn-dark" style="position: absolute; right: 0;">Back</button></a>
+<div class="container">
+<h1><u>Riders</u></h1>
+
+
+
+    {% for rider in riders %}
+    {% if rider.team_option == "Ind" %}
+
+<div class="btn-group2">
+    <a href="./{{ rider.number }}">
+<button>
+    <b>{{ rider.number }}. {{ rider.name }} ({{ rider.state }}) {{ rider.agegroup }}</b>
+
+
+
+
+</button>
+        </a>
+</div>
+    {% endif %}
+        {% endfor %}
+
+
+  <br>
+
+
+<h1><u>Teams</u></h1>
+        {% for rider in riders %}
+    {% if rider.team_option == "Team" %}
+<div class="btn-group2">
+    <a href="./{{ rider.number }}">
+<button>
+    {{ rider.number }} {{ rider.name }} ({{ rider.state }}) {{ rider.agegroup }}
+</button>
+        </a>
+</div>
+        {% endif %}
+      {% endfor %}
+</div>
+
+
+{% endblock %}

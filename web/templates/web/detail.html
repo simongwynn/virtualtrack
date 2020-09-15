@@ -1,0 +1,48 @@
+{% extends 'web/base.html'%}
+{% load static %}
+
+{% block content %}
+ <a href="../"><button type="submit" class="btn btn-dark" style="position: absolute; right: 0;">Back</button></a>
+<br>
+<div class="container">
+<h1> {{ riders.number }}. {{ riders.name }} ({{ riders.state }})<img src="/static/web/{{ riders.state }}.jpg"></h1>
+<h5>Velodrome: {{ riders.velodrome }}</h5>
+<h5>Age Category: {{ riders.agegroup }}</h5>
+<hr>
+{% if riders.team_option == "Team" %}
+<ul>{{ riders.team_member1 }}</ul>
+<ul>{{ riders.team_member2 }}</ul>
+{% if riders.team_member3 > "" %}
+<ul>{{ riders.team_member3 }}</ul>
+{% endif %}
+{% if riders.team_member4 > "" %}
+<ul>{{ riders.team_member4 }}</ul>
+        {% endif %}
+
+    </tr>
+
+</table>
+<hr>
+    {% if riders.ts_time != None %}
+<h4>Team Sprint: {{ riders.ts_time }} (actual time) / {{ riders.ts_adjusted_time }} (adjusted time)</h4>
+    {% endif %}
+    {% if riders.tp_time_minute != None %}
+<h4>Team Time Trial:  {{ riders.tp_time }}:{{ riders.tp_time_second }} (actual time) / {{ riders.tp_adjusted_time }}:{{ riders.tp_adjusted_second }} (adjusted time)</h4>
+
+    {% endif %}
+{% else %}
+    {% if riders.ip_time != None %}
+<h4> Individual Pursuit: {{ riders.ip_time }}:{{ riders.ip_time_second }} (actual time) / {{ riders.ip_adjusted_time }}:{{ riders.ip_adjusted_second }} (adjusted time)</h4>
+    {% endif %}
+    {% if riders.tt200_time != None %}
+<h4>Flying 200: {{ riders.tt200_time }} (actual time) / {{riders.tt200_adjusted_time }} (adjusted time) </h4>
+        {% endif %}
+{% if riders.tt_time_second != None %}
+<h4>Time Trial: {% if riders.tt_time == None %} {{ riders.tt_time_second }} {% else %}  {{ riders.tt_time }}:{{ riders.tt_time_second }} {% endif %} (actual time) /
+
+    {% if riders.tt_adjusted_time == None %} {{ riders.tt_adjusted_second }} {% else %} {{ riders.tt_adjusted_time }}:{{ riders.tt_adjusted_second}} {% endif %} (adjusted time)</h4>
+{% endif %}
+    {% endif %}
+    </div>
+
+{% endblock %}

@@ -1,0 +1,196 @@
+{% extends 'web/base.html'%}
+
+{% block content %}
+
+<a href="../"><button type="submit" class="btn btn-dark" style="position: absolute; right: 0;">Back</button></a>
+<br>
+<h1>Individual Pursuit Results</h1>
+      {% if timedate <= finaldate %}
+<h2><u>Provisional</u></h2>
+    {% else %}
+    <h2><u>Final Result</u></h2>
+{% endif %}
+<div class="tab">
+  <button class="tablinks" onclick="openCity(event, 'U15M')" id="defaultOpen">Under 15 Men</button>
+    <button class="tablinks" onclick="openCity(event, 'U15W')">Under 15 Women</button>
+    <button class="tablinks" onclick="openCity(event, 'U17M')">Under 17 Men</button>
+    <button class="tablinks" onclick="openCity(event, 'U17W')">Under 17 Women</button>
+    <button class="tablinks" onclick="openCity(event, 'U19M')">Under 19 Men</button>
+    <button class="tablinks" onclick="openCity(event, 'U19W')">Under 19 Women</button>
+    <button class="tablinks" onclick="openCity(event, 'ELITEM')">Elite Men</button>
+    <button class="tablinks" onclick="openCity(event, 'ELITEW')">Elite Women</button>
+    <button class="tablinks" onclick="openCity(event, 'PARAB')">Para-Cycling B</button>
+    <button class="tablinks" onclick="openCity(event, 'PARAC')">Para-Cycling C</button>
+
+
+</div>
+<div id="U15M" class="tabcontent">
+<h2>Under 15 Men</h2>
+  <table>
+{% for result in jm15 %}
+
+<tr style = "color:black">
+  <th style="width:50px">{{ forloop.counter }}.</th>
+<th style="width:250px">  <a style = "color:black" href="/riders/{{ result.number }}">{{ result.name }}({{ result.state }})</a></th>
+  <th style="width:250px">{{ result.velodrome }}</th>
+  <th>{{ result.ip_time }}:{{ result.ip_time_second }} (actual time) <b>{{ result.ip_adjusted_time }}:{{ result.ip_adjusted_second }} (adjusted time)</b></th>
+  </tr>
+{% endfor %}
+  </table>
+</div>
+<div id="U15W" class="tabcontent">
+
+<h2>Under 15 Women</h2>
+    <table>
+{% for result in jw15 %}
+
+<tr style = "color:black">
+  <th style="width:50px">{{ forloop.counter }}.</th>
+<th style="width:250px">  <a style = "color:black" href="/riders/{{ result.number }}">{{ result.name }}({{ result.state }})</a></th>
+  <th style="width:250px">{{ result.velodrome }}</th>
+  <th>{{ result.ip_time }}:{{ result.ip_time_second }} (actual time) <b>{{ result.ip_adjusted_time }}:{{ result.ip_adjusted_second }} (adjusted time)</b></th>
+  </tr>
+{% endfor %}
+  </table>
+</div>
+<div id="U17M" class="tabcontent">
+<h2>Under 17 Men</h2>
+<table>
+{% for result in jm17 %}
+
+<tr style = "color:black">
+  <th style="width:50px">{{ forloop.counter }}.</th>
+<th style="width:250px">  <a style = "color:black" href="/riders/{{ result.number }}">{{ result.name }}({{ result.state }})</a></th>
+  <th style="width:250px">{{ result.velodrome }}</th>
+  <th>{{ result.ip_time }}:{{ result.ip_time_second }} (actual time) <b>{{ result.ip_adjusted_time }}:{{ result.ip_adjusted_second }} (adjusted time)</b></th>
+  </tr>
+{% endfor %}
+  </table>
+</div>
+<div id="U17W" class="tabcontent">
+<h2>Under 17 Women</h2>
+<table>
+{% for result in jw17 %}
+
+<tr style = "color:black">
+  <th style="width:50px">{{ forloop.counter }}.</th>
+<th style="width:250px">  <a style = "color:black" href="/riders/{{ result.number }}">{{ result.name }}({{ result.state }})</a></th>
+  <th style="width:250px">{{ result.velodrome }}</th>
+  <th>{{ result.ip_time }}:{{ result.ip_time_second }} (actual time) <b>{{ result.ip_adjusted_time }}:{{ result.ip_adjusted_second }} (adjusted time)</b></th>
+  </tr>
+{% endfor %}
+  </table>
+</div>
+<div id="U19M" class="tabcontent">
+<h2>Under 19 Men</h2>
+<table>
+{% for result in jm19 %}
+
+<tr style = "color:black">
+  <th style="width:50px">{{ forloop.counter }}.</th>
+<th style="width:250px">  <a style = "color:black" href="/riders/{{ result.number }}">{{ result.name }}({{ result.state }})</a></th>
+  <th style="width:250px">{{ result.velodrome }}</th>
+  <th>{{ result.ip_time }}:{{ result.ip_time_second }} (actual time) <b>{{ result.ip_adjusted_time }}:{{ result.ip_adjusted_second }} (adjusted time)</b></th>
+  </tr>
+{% endfor %}
+  </table>
+</div>
+<div id="U19W" class="tabcontent">
+<h2>Under 19 Women</h2>
+<table>
+{% for result in jw19 %}
+
+<tr style = "color:black">
+  <th style="width:50px">{{ forloop.counter }}.</th>
+<th style="width:250px">  <a style = "color:black" href="/riders/{{ result.number }}">{{ result.name }}({{ result.state }})</a></th>
+  <th style="width:250px">{{ result.velodrome }}</th>
+  <th>{{ result.ip_time }}:{{ result.ip_time_second }} (actual time) <b>{{ result.ip_adjusted_time }}:{{ result.ip_adjusted_second }} (adjusted time)</b></th>
+  </tr>
+{% endfor %}
+  </table>
+</div>
+<div id="ELITEM" class="tabcontent">
+<h2>Elite Men</h2>
+<table>
+{% for result in elitem %}
+
+<tr style = "color:black">
+  <th style="width:50px">{{ forloop.counter }}.</th>
+<th style="width:250px">  <a style = "color:black" href="/riders/{{ result.number }}">{{ result.name }}({{ result.state }})</a></th>
+  <th style="width:250px">{{ result.velodrome }}</th>
+  <th>{{ result.ip_time }}:{{ result.ip_time_second }} (actual time) <b>{{ result.ip_adjusted_time }}:{{ result.ip_adjusted_second }} (adjusted time)</b></th>
+  </tr>
+{% endfor %}
+  </table>
+</div>
+<div id="ELITEW" class="tabcontent">
+<h2>Elite Women</h2>
+<table>
+{% for result in elitew %}
+
+<tr style = "color:black">
+  <th style="width:50px">{{ forloop.counter }}.</th>
+<th style="width:250px">  <a style = "color:black" href="/riders/{{ result.number }}">{{ result.name }}({{ result.state }})</a></th>
+  <th style="width:250px">{{ result.velodrome }}</th>
+  <th>{{ result.ip_time }}:{{ result.ip_time_second }} (actual time) <b>{{ result.ip_adjusted_time }}:{{ result.ip_adjusted_second }} (adjusted time)</b></th>
+  </tr>
+{% endfor %}
+  </table>
+</div>
+<div id="PARAB" class="tabcontent">
+<h2>Para-Cycling B</h2>
+<table>
+{% for result in parab %}
+
+<tr style = "color:black">
+  <th style="width:50px">{{ forloop.counter }}.</th>
+<th style="width:250px">  <a style = "color:black" href="/riders/{{ result.number }}">{{ result.name }}({{ result.state }})</a></th>
+  <th style="width:250px">{{ result.velodrome }}</th>
+  <th>{{ result.ip_time }}:{{ result.ip_time_second }} (actual time) <b>{{ result.ip_adjusted_time }}:{{ result.ip_adjusted_second }} (adjusted time)</b></th>
+  </tr>
+{% endfor %}
+  </table>
+</div>
+<div id="PARAC" class="tabcontent">
+<h2>Para-Cycling C</h2>
+<table>
+{% for result in parac %}
+
+<tr style = "color:black">
+  <th style="width:50px">{{ forloop.counter }}.</th>
+<th style="width:250px">  <a style = "color:black" href="/riders/{{ result.number }}">{{ result.name }}({{ result.state }})</a></th>
+  <th style="width:250px">{{ result.velodrome }}</th>
+  <th>{{ result.ip_time }}:{{ result.ip_time_second }} (actual time) <b>{{ result.ip_adjusted_time }}:{{ result.ip_adjusted_second }} (adjusted time)</b></th>
+  </tr>
+{% endfor %}
+  </table>
+</div>
+<script>
+    function openCity(evt, cityName) {
+  // Declare all variables
+  var i, tabcontent, tablinks;
+
+  // Get all elements with class="tabcontent" and hide them
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+
+  // Get all elements with class="tablinks" and remove the class "active"
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+
+  // Show the current tab, and add an "active" class to the button that opened the tab
+  document.getElementById(cityName).style.display = "block";
+  evt.currentTarget.className += " active";
+}
+</script>
+
+<script>
+// Get the element with id="defaultOpen" and click on it
+document.getElementById("defaultOpen").click();
+</script>
+
+{% endblock %}

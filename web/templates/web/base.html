@@ -1,0 +1,166 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Virtual Track</title>
+  <link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
+<link rel="stylesheet" href={% static "web/custom.css" %}>
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com>/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+  <script>
+  $( function() {
+    $( "#tabs" ).tabs();
+  } );
+  </script>
+      <style type="text/css">
+
+        .auto-style1 {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            width: 10%;
+            float: left;
+        }
+        .auto-style3 {
+            width: 135px;
+            height: 50px;
+        }
+
+
+        //CSS
+.visibledevice {display:none;}
+.visibledesktop {display:display;}
+
+@media only screen and (min-width: 768px) {
+  /* For mobile phones: */
+    .auto-style4 {
+            height: 100%;
+            width: 100%
+        }
+
+        .btn-group button {
+  background-color: #000000; /* Green background */
+  border: 1px solid White; /* Green border */
+  color: white; /* White text */
+  padding: 10px 24px; /* Some padding */
+  cursor: pointer; /* Pointer/hand icon */
+  width: 1580px; /* Set a width if needed */
+  display: block; /* Make the buttons appear below each other */
+  text-align: left;
+}
+.btn-group2 button {
+  background-color: #000000; /* Green background */
+  border: 1px solid White; /* Green border */
+  color: white; /* White text */
+  padding: 10px 24px; /* Some padding */
+  cursor: pointer; /* Pointer/hand icon */
+  width: 1200px; /* Set a width if needed */
+  display: block; /* Make the buttons appear below each other */
+  text-align: left;
+}
+
+.btn-group button:not(:last-child) {
+  border-bottom: none; /* Prevent double borders */
+}
+
+/* Add a background color on hover */
+.btn-group button:hover {
+  background-color: #595959;
+}
+
+div.frontimage img {
+text-align:center
+height = "100"
+}
+  }
+
+
+@media only screen and (max-width: 768px) {
+ .btn-group button {
+  background-color: #000000; /* Green background */
+  border: 1px solid White; /* Green border */
+  color: white; /* White text */
+  padding: 10px 24px; /* Some padding */
+  cursor: pointer; /* Pointer/hand icon */
+  width: 100%; /* Set a width if needed */
+  display: block; /* Make the buttons appear below each other */
+  text-align: left;
+}
+ .btn-group2 button {
+  background-color: #000000; /* Green background */
+  border: 1px solid White; /* Green border */
+  color: white; /* White text */
+  padding: 10px 24px; /* Some padding */
+  cursor: pointer; /* Pointer/hand icon */
+  width: 100%; /* Set a width if needed */
+  display: block; /* Make the buttons appear below each other */
+  text-align: left;
+}
+
+.btn-group button:not(:last-child) {
+  border-bottom: none; /* Prevent double borders */
+}
+.frontimage {
+height = "10px"
+}
+
+/* Add a background color on hover */
+.btn-group button:hover {
+  background-color: #595959;
+}
+
+}
+        .auto-style5 {
+            font-size: large;
+            margin-bottom: 7px;
+            text-align: right;
+            height: 44px;
+        }
+
+         .auto-style4 {
+            height: 100%;
+            width: 100%
+        }
+
+number {
+        width:1000px;
+        }
+
+        </style>
+</head>
+<body>
+<div class="headimage">
+         <img src={% static "web/VirtualTrack.png" %} alt="track" class="auto-style4"
+</div>
+
+{% if user.is_authenticated %}
+
+Logged In as {{ user.username }}
+
+
+<form action="{% url 'logoutuser' %}" method="POST">
+        {% csrf_token %}
+    <button type="submit" class="btn btn-dark"> Logout</button>
+
+
+</form>
+
+{% else %}
+ <a href="{% url 'loginuser' %}"><button type="submit" class="btn btn-dark" style="position: absolute; right: 0;">Login</button></a>
+
+
+{% endif %}
+<br>
+
+{% block content %} {% endblock %}
+<br>
+<footer>
+<a href="https://www.timedresult.com" target="_blank">
+<img src={% static "web/footerv3.png" %} alt="track" class="auto-style4"> </a>
+</footer>
+</body>

@@ -1,0 +1,22 @@
+{% extends 'web/base.html'%}
+
+{% block content %}
+<a href="../"><button type="submit" class="btn btn-dark" style="position: absolute; right: 0;">Back</button></a>
+
+
+{% if user.is_authenticated %}
+
+<h1>Upload Ride</h1>
+<h3>Flying 200 Ride</h3>
+
+<h2> {{ error }}</h2>
+
+<form method = 'POST'>
+    {% csrf_token %}
+{{ form.as_p }}
+    <button type="submit">Submit</button>
+</form>
+
+{% endif %}
+
+{% endblock %}
