@@ -117,6 +117,7 @@ class rider(models.Model):
     ts_temp = models.FloatField(null=True, blank=True)
     ts_bp = models.FloatField(null=True, blank=True)
     ts_humdity = models.FloatField(null=True, blank=True)
+    ts_ineligable = models.BooleanField(default=False)
 
     tp_time = models.CharField(max_length=10,null=True, blank=True)
     tp_temp = models.CharField(max_length=10,null=True, blank=True)
@@ -127,6 +128,7 @@ class rider(models.Model):
     tp_time_total_adjusted = models.FloatField(max_length=8,null=True, blank=True)
     tp_bp = models.FloatField(null=True, blank=True)
     tp_humdity = models.FloatField(null=True, blank=True)
+    tp_ineligable = models.BooleanField(default=False)
 
     tt_time = models.CharField(max_length=2, null=True, blank=True)
     tt_time_second = models.CharField(max_length=6, null=True, blank=True)

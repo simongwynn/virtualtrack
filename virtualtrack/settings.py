@@ -25,7 +25,7 @@ SECRET_KEY = '2%dx7c7+z90)z8y4s=45o!@uaw@*5b=e5^&z&2jzyj*yz)_^vk'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ["www.myvirtualtrack.com", "myvirtualtrack.com" ]
+ALLOWED_HOSTS = ["www.myvirtualtrack.com", "myvirtualtrack.com"]
 
 
 # Application definition

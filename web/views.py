@@ -281,7 +281,7 @@ def result(request):
 
 def result_ip(request):
     todaydate= date.today()
-    finaldate = date(2020, 10, 14)
+    finaldate = date(2020, 10, 12)
     u15m = rider.objects.order_by('ip_time_total_adjusted').filter(ip_time_total__gt=0, agegroup='JM15')
     u15w = rider.objects.order_by('ip_time_total_adjusted').filter(ip_time_total__gt=0, agegroup='JW15')
     u17m = rider.objects.order_by('ip_time_total_adjusted').filter(ip_time_total__gt=0, agegroup='JM17')
@@ -298,7 +298,7 @@ def result_ip(request):
 
 def result_tt(request):
     todaydate = date.today()
-    finaldate = date(2020, 10, 14)
+    finaldate = date(2020, 10, 12)
     u15m = rider.objects.order_by('tt_time_total_adjusted').filter(tt_time_total__gt=0, agegroup='JM15')
     u15w = rider.objects.order_by('tt_time_total_adjusted').filter(tt_time_total__gt=0, agegroup='JW15')
     u17m = rider.objects.order_by('tt_time_total_adjusted').filter(tt_time_total__gt=0, agegroup='JM17')
@@ -316,7 +316,7 @@ def result_tt(request):
 
 def result_flying200(request):
     todaydate = date.today()
-    finaldate = date(2020, 10, 14)
+    finaldate = date(2020, 10, 12)
     u15m = rider.objects.order_by('tt200_adjusted_time').filter(tt200_time__gt=0, agegroup='JM15')
     u15w = rider.objects.order_by('tt200_adjusted_time').filter(tt200_time__gt=0, agegroup='JW15')
     u17m = rider.objects.order_by('tt200_adjusted_time').filter(tt200_time__gt=0, agegroup='JM17')
@@ -336,15 +336,15 @@ def result_flying200(request):
 
 def result_teampursuit(request):
     todaydate = date.today()
-    finaldate = date(2020, 10, 14)
-    u15m = rider.objects.order_by('tp_time_total_adjusted').filter(tp_time_total__gt=0, agegroup='JM15')
-    u15w = rider.objects.order_by('tp_time_total_adjusted').filter(tp_time_total__gt=0, agegroup='JW15')
-    u17m = rider.objects.order_by('tp_time_total_adjusted').filter(tp_time_total__gt=0, agegroup='JM17')
-    u17w = rider.objects.order_by('tp_time_total_adjusted').filter(tp_time_total__gt=0, agegroup='JW17')
-    u19m = rider.objects.order_by('tp_time_total_adjusted').filter(tp_time_total__gt=0, agegroup='JM19')
-    u19w = rider.objects.order_by('tp_time_total_adjusted').filter(tp_time_total__gt=0, agegroup='JW19')
-    elitem = rider.objects.order_by('tp_time_total_adjusted').filter(tp_time_total__gt=0, agegroup='ELITEM')
-    elitew = rider.objects.order_by('tp_time_total_adjusted').filter(tp_time_total__gt=0, agegroup='ELITEW')
+    finaldate = date(2020, 10, 12)
+    u15m = rider.objects.order_by('tp_ineligable', 'tp_time_total_adjusted').filter(tp_time_total__gt=0, agegroup='JM15')
+    u15w = rider.objects.order_by('tp_ineligable', 'tp_time_total_adjusted').filter(tp_time_total__gt=0, agegroup='JW15')
+    u17m = rider.objects.order_by('tp_ineligable', 'tp_time_total_adjusted').filter(tp_time_total__gt=0, agegroup='JM17')
+    u17w = rider.objects.order_by('tp_ineligable', 'tp_time_total_adjusted').filter(tp_time_total__gt=0, agegroup='JW17')
+    u19m = rider.objects.order_by('tp_ineligable', 'tp_time_total_adjusted').filter(tp_time_total__gt=0, agegroup='JM19')
+    u19w = rider.objects.order_by('tp_ineligable', 'tp_time_total_adjusted').filter(tp_time_total__gt=0, agegroup='JW19')
+    elitem = rider.objects.order_by('tp_ineligable', 'tp_time_total_adjusted').filter(tp_time_total__gt=0, agegroup='ELITEM')
+    elitew = rider.objects.order_by('tp_ineligable', 'tp_time_total_adjusted').filter(tp_time_total__gt=0, agegroup='ELITEW')
     return render(request, 'web/result_teampursuit.html',
                   {'jm15': u15m, 'jw15': u15w, 'jm17': u17m, 'jw17': u17w, 'jm19': u19m, 'jw19': u19w, 'elitem': elitem,
                    'elitew': elitew, 'timedate': todaydate, 'finaldate': finaldate})
@@ -352,15 +352,15 @@ def result_teampursuit(request):
 
 def result_teamsprint(request):
     todaydate = date.today()
-    finaldate = date(2020, 10, 14)
-    u15m = rider.objects.order_by('ts_adjusted_time').filter(ts_time__gt=0, agegroup='JM15')
-    u15w = rider.objects.order_by('ts_adjusted_time').filter(ts_time__gt=0, agegroup='JW15')
-    u17m = rider.objects.order_by('ts_adjusted_time').filter(ts_time__gt=0, agegroup='JM17')
-    u17w = rider.objects.order_by('ts_adjusted_time').filter(ts_time__gt=0, agegroup='JW17')
-    u19m = rider.objects.order_by('ts_adjusted_time').filter(ts_time__gt=0, agegroup='JM19')
-    u19w = rider.objects.order_by('ts_adjusted_time').filter(ts_time__gt=0, agegroup='JW19')
-    elitem = rider.objects.order_by('ts_adjusted_time').filter(ts_time__gt=0, agegroup='ELITEM')
-    elitew = rider.objects.order_by('ts_adjusted_time').filter(ts_time__gt=0, agegroup='ELITEW')
+    finaldate = date(2020, 10, 12)
+    u15m = rider.objects.order_by('ts_ineligable', 'ts_adjusted_time').filter(ts_time__gt=0, agegroup='JM15')
+    u15w = rider.objects.order_by('ts_ineligable', 'ts_adjusted_time').filter(ts_time__gt=0, agegroup='JW15')
+    u17m = rider.objects.order_by('ts_ineligable', 'ts_adjusted_time').filter(ts_time__gt=0, agegroup='JM17')
+    u17w = rider.objects.order_by('ts_ineligable', 'ts_adjusted_time').filter(ts_time__gt=0, agegroup='JW17')
+    u19m = rider.objects.order_by('ts_ineligable', 'ts_adjusted_time').filter(ts_time__gt=0, agegroup='JM19')
+    u19w = rider.objects.order_by('ts_ineligable', 'ts_adjusted_time').filter(ts_time__gt=0, agegroup='JW19')
+    elitem = rider.objects.order_by('ts_ineligable', 'ts_adjusted_time').filter(ts_time__gt=0, agegroup='ELITEM')
+    elitew = rider.objects.order_by('ts_ineligable', 'ts_adjusted_time').filter(ts_time__gt=0, agegroup='ELITEW')
     return render(request, 'web/result_teamsprint.html',
                   {'jm15': u15m, 'jw15': u15w, 'jm17': u17m, 'jw17': u17w, 'jm19': u19m, 'jw19': u19w, 'elitem': elitem,
                    'elitew': elitew, 'timedate': todaydate, 'finaldate': finaldate})

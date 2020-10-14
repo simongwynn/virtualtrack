@@ -24,6 +24,7 @@
 <h2>Under 15 Men</h2>
 <table>
 {% for result in jm15 %}
+
         <tr style = "color:black">
 <th style="width:50px">{{ forloop.counter }}.</th>
           <th style="width:250px"><a style = "color:black" href="/riders/{{ result.number }}">{{ result.name }} ({{ result.state }}) </a> </th>
@@ -115,6 +116,7 @@
 <h2>Elite Women</h2>
 <table>
 {% for result in elitew %}
+
         <tr style = "color:black">
 <th style="width:50px">{{ forloop.counter }}.</th>
           <th style="width:250px"><a style = "color:black" href="/riders/{{ result.number }}">{{ result.name }} ({{ result.state }}) </a> </th>
