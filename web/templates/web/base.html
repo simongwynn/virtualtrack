@@ -134,9 +134,7 @@ number {
         </style>
 </head>
 <body>
-<div class="headimage">
-         <img src={% static "web/VirtualTrack.png" %} alt="track" class="auto-style4"
-</div>
+
 
 {% if user.is_authenticated %}
 
@@ -156,11 +154,9 @@ Logged In as {{ user.username }}
 
 {% endif %}
 <br>
+<br>
+<br>
 
 {% block content %} {% endblock %}
 <br>
-<footer>
-<a href="https://www.timedresult.com" target="_blank">
-<img src={% static "web/footerv3.png" %} alt="track" class="auto-style4"> </a>
-</footer>
 </body>

@@ -26,7 +26,7 @@
     {% if riders.ts_time != None %}
 <h4>Team Sprint: {{ riders.ts_time }} (actual time) / {{ riders.ts_adjusted_time }} (adjusted time)</h4>
     {% endif %}
-    {% if riders.tp_time_minute != None %}
+    {% if riders.tp_time != None %}
 <h4>Team Time Trial:  {{ riders.tp_time }}:{{ riders.tp_time_second }} (actual time) / {{ riders.tp_adjusted_time }}:{{ riders.tp_adjusted_second }} (adjusted time)</h4>
 
     {% endif %}

@@ -76,6 +76,13 @@ def ip(request):
                     ip_time = int(request.POST['ip_time'])
                 instance.ip_time_total = ip_time * 60 + float(request.POST['ip_time_second'])
                 x = flying_correction(ip_time * 60 + float(request.POST['ip_time_second']), float(request.POST['ip_temp']), float(request.POST['ip_bp']), float(request.POST['ip_humdity']))
+                if instance.velodrome == 'NT Velodrome':
+                    if instance.agegroup == 'ELITEM':
+                        x = x -12
+                    elif instance.agegroup == 'JM19' or instance.agegroup == 'ELITEW':
+                        x = x -9
+                    else:
+                        x = x - 6
                 instance.ip_time_total_adjusted = x
                 min = int(x/60)
                 seconds = x - (min*60)
@@ -113,6 +120,11 @@ def tt(request):
                 x = flying_correction(tt_time * 60 + float(request.POST['tt_time_second']),
                                       float(request.POST['tt_temp']), float(request.POST['tt_bp']),
                                       float(request.POST['tt_humdity']))
+                if instance.velodrome == 'NT Velodrome':
+                    if instance.agegroup == 'ELITEM' or instance.agegroup == 'JM19':
+                        x = x - 2
+                    else:
+                        x = x - 1
                 instance.tt_time_total_adjusted = x
                 min = int(x / 60)
                 seconds = x - (min * 60)
@@ -145,7 +157,14 @@ def flying200(request):
                 x = flying_correction(float(request.POST['tt200_time']),
                                       float(request.POST['tt200_temp']), float(request.POST['tt200_bp']),
                                       float(request.POST['tt200_humdity']))
+                if instance.velodrome == 'NT Velodrome':
+                    if instance.agegroup == 'ELITEM' or instance.agegroup == 'ELITEW':
+                        x = x -1
                 seconds = float("{:.3f}".format(x))
+                instance.tt200_time = float(request.POST['tt200_time'])
+                instance.tt200_temp = float(request.POST['tt200_temp'])
+                instance.tt200_bp = float(request.POST['tt200_bp'])
+                instance.tt200_humdity = float(request.POST['tt200_humdity'])
                 instance.tt200_adjusted_time = seconds
                 instance.user = request.user
                 if form.is_valid():
@@ -169,6 +188,11 @@ def teampursuit(request):
                 x = flying_correction(int(request.POST['tp_time']) * 60 + float(request.POST['tp_time_second']),
                                       float(request.POST['tp_temp']), float(request.POST['tp_bp']),
                                       float(request.POST['tp_humdity']))
+                if instance.velodrome == 'NT Velodrome':
+                    if instance.agegroup == 'ELITEM' or instance.agegroup == 'ELITEW':
+                        x = x -13
+                    else:
+                        x = x -10
                 instance.tp_time_total_adjusted = x
                 min = int(x / 60)
                 seconds = x - (min * 60)
@@ -180,6 +204,7 @@ def teampursuit(request):
                     instance.tp_time_second = '0' + str(currentseconds)
                 instance.tp_adjusted_time = min
                 instance.tp_adjusted_second = seconds
+                instance.user = request.user
                 if form.is_valid():
                     form.save()
                     instance.user = request.user
@@ -202,6 +227,10 @@ def teamsprint(request):
                 x = flying_correction(float(request.POST['ts_time']),
                                       float(request.POST['ts_temp']), float(request.POST['ts_bp']),
                                       float(request.POST['ts_humdity']))
+                if instance.velodrome == 'NT Velodrome':
+                    x = x -3
+                if instance.velodrome == 'Silverdome':
+                    x = x -1
                 seconds = float("{:.3f}".format(x))
                 instance.ts_adjusted_time = seconds
                 instance.user = request.user
@@ -210,7 +239,7 @@ def teamsprint(request):
                     return redirect('uploadride')
             except:
                 return render(request, 'web/teamsprint.html',
-                              {'form': TeamPursuitForm(), 'error': 'User does not exist'})
+                              {'form': TeamSprintForm(), 'error': 'User does not exist'})
         else:
             return render(request, 'web/teamsprint.html', {'form': TeamPursuitForm()})
 
@@ -261,8 +290,8 @@ def result_ip(request):
     u19w = rider.objects.order_by('ip_time_total_adjusted').filter(ip_time_total__gt=0, agegroup='JW19')
     elitem = rider.objects.order_by('ip_time_total_adjusted').filter(ip_time_total__gt=0, agegroup='ELITEM')
     elitew = rider.objects.order_by('ip_time_total_adjusted').filter(ip_time_total__gt=0, agegroup='ELITEW')
-    parab = rider.objects.order_by('tt_time_total_adjusted').filter(ip_time_total__gt=0, agegroup='PARA-B')
-    parac = rider.objects.order_by('tt_time_total_adjusted').filter(ip_time_total__gt=0, agegroup='PARA-C')
+    parab = rider.objects.order_by('ip_time_total_adjusted').filter(ip_time_total__gt=0, agegroup='Para-B')
+    parac = rider.objects.order_by('ip_time_total_adjusted').filter(ip_time_total__gt=0, agegroup='Para-C')
     return render(request, 'web/result_ip.html',
                   {'jm15': u15m, 'jw15': u15w, 'jm17': u17m, 'jw17': u17w, 'jm19': u19m, 'jw19': u19w, 'elitem': elitem,
                    'elitew': elitew, 'parab': parab, 'parac': parac, 'timedate': todaydate,'finaldate': finaldate })
@@ -278,8 +307,8 @@ def result_tt(request):
     u19w = rider.objects.order_by('tt_time_total_adjusted').filter(tt_time_total__gt=0, agegroup='JW19')
     elitem = rider.objects.order_by('tt_time_total_adjusted').filter(tt_time_total__gt=0, agegroup='ELITEM')
     elitew = rider.objects.order_by('tt_time_total_adjusted').filter(tt_time_total__gt=0, agegroup='ELITEW')
-    parab = rider.objects.order_by('tt_time_total_adjusted').filter(tt_time_total__gt=0, agegroup='PARA-B')
-    parac = rider.objects.order_by('tt_time_total_adjusted').filter(tt_time_total__gt=0, agegroup='PARA-C')
+    parab = rider.objects.order_by('tt_time_total_adjusted').filter(tt_time_total__gt=0, agegroup='Para-B')
+    parac = rider.objects.order_by('tt_time_total_adjusted').filter(tt_time_total__gt=0, agegroup='Para-C')
     return render(request, 'web/result_tt.html',
                   {'jm15': u15m, 'jw15': u15w, 'jm17': u17m, 'jw17': u17w, 'jm19': u19m, 'jw19': u19w, 'elitem': elitem,
                    'elitew': elitew, 'parab': parab, 'parac': parac, 'timedate': todaydate, 'finaldate': finaldate})
@@ -288,16 +317,16 @@ def result_tt(request):
 def result_flying200(request):
     todaydate = date.today()
     finaldate = date(2020, 10, 14)
-    u15m = rider.objects.order_by('tt200_time').filter(tt200_time__gt=0, agegroup='JM15')
-    u15w = rider.objects.order_by('tt200_time').filter(tt200_time__gt=0, agegroup='JW15')
-    u17m = rider.objects.order_by('tt200_time').filter(tt200_time__gt=0, agegroup='JM17')
-    u17w = rider.objects.order_by('tt200_time').filter(tt200_time__gt=0, agegroup='JW17')
-    u19m = rider.objects.order_by('tt200_time').filter(tt200_time__gt=0, agegroup='JM19')
-    u19w = rider.objects.order_by('tt200_time').filter(tt200_time__gt=0, agegroup='JW19')
-    elitem = rider.objects.order_by('tt200_time').filter(tt200_time__gt=0, agegroup='ELITEM')
-    elitew = rider.objects.order_by('tt200_time').filter(tt200_time__gt=0, agegroup='ELITEW')
-    parab = rider.objects.order_by('tt200_time').filter(tt200_time__gt=0, agegroup='PARA-B')
-    parac = rider.objects.order_by('tt200_time').filter(tt200_time__gt=0, agegroup='PARA-C')
+    u15m = rider.objects.order_by('tt200_adjusted_time').filter(tt200_time__gt=0, agegroup='JM15')
+    u15w = rider.objects.order_by('tt200_adjusted_time').filter(tt200_time__gt=0, agegroup='JW15')
+    u17m = rider.objects.order_by('tt200_adjusted_time').filter(tt200_time__gt=0, agegroup='JM17')
+    u17w = rider.objects.order_by('tt200_adjusted_time').filter(tt200_time__gt=0, agegroup='JW17')
+    u19m = rider.objects.order_by('tt200_adjusted_time').filter(tt200_time__gt=0, agegroup='JM19')
+    u19w = rider.objects.order_by('tt200_adjusted_time').filter(tt200_time__gt=0, agegroup='JW19')
+    elitem = rider.objects.order_by('tt200_adjusted_time').filter(tt200_time__gt=0, agegroup='ELITEM')
+    elitew = rider.objects.order_by('tt200_adjusted_time').filter(tt200_time__gt=0, agegroup='ELITEW')
+    parab = rider.objects.order_by('tt200_adjusted_time').filter(tt200_time__gt=0, agegroup='Para-B')
+    parac = rider.objects.order_by('tt200_adjusted_time').filter(tt200_time__gt=0, agegroup='Para-C')
     return render(request, 'web/result_flying200.html',
                   {'jm15': u15m, 'jw15': u15w, 'jm17': u17m, 'jw17': u17w, 'jm19': u19m, 'jw19': u19w, 'elitem': elitem,
                    'elitew': elitew, 'parab': parab, 'parac': parac, 'timedate': todaydate, 'finaldate': finaldate})
@@ -308,14 +337,14 @@ def result_flying200(request):
 def result_teampursuit(request):
     todaydate = date.today()
     finaldate = date(2020, 10, 14)
-    u15m = rider.objects.order_by('tp_time_total').filter(tp_time_total__gt=0, agegroup='JM15')
-    u15w = rider.objects.order_by('tp_time_total').filter(tp_time_total__gt=0, agegroup='JW15')
-    u17m = rider.objects.order_by('tp_time_total').filter(tp_time_total__gt=0, agegroup='JM17')
-    u17w = rider.objects.order_by('tp_time_total').filter(tp_time_total__gt=0, agegroup='JW17')
-    u19m = rider.objects.order_by('tp_time_total').filter(tp_time_total__gt=0, agegroup='JM19')
-    u19w = rider.objects.order_by('tp_time_total').filter(tp_time_total__gt=0, agegroup='JW19')
-    elitem = rider.objects.order_by('tp_time_total').filter(tp_time_total__gt=0, agegroup='ELITEM')
-    elitew = rider.objects.order_by('tp_time_total').filter(tp_time_total__gt=0, agegroup='ELITEW')
+    u15m = rider.objects.order_by('tp_time_total_adjusted').filter(tp_time_total__gt=0, agegroup='JM15')
+    u15w = rider.objects.order_by('tp_time_total_adjusted').filter(tp_time_total__gt=0, agegroup='JW15')
+    u17m = rider.objects.order_by('tp_time_total_adjusted').filter(tp_time_total__gt=0, agegroup='JM17')
+    u17w = rider.objects.order_by('tp_time_total_adjusted').filter(tp_time_total__gt=0, agegroup='JW17')
+    u19m = rider.objects.order_by('tp_time_total_adjusted').filter(tp_time_total__gt=0, agegroup='JM19')
+    u19w = rider.objects.order_by('tp_time_total_adjusted').filter(tp_time_total__gt=0, agegroup='JW19')
+    elitem = rider.objects.order_by('tp_time_total_adjusted').filter(tp_time_total__gt=0, agegroup='ELITEM')
+    elitew = rider.objects.order_by('tp_time_total_adjusted').filter(tp_time_total__gt=0, agegroup='ELITEW')
     return render(request, 'web/result_teampursuit.html',
                   {'jm15': u15m, 'jw15': u15w, 'jm17': u17m, 'jw17': u17w, 'jm19': u19m, 'jw19': u19w, 'elitem': elitem,
                    'elitew': elitew, 'timedate': todaydate, 'finaldate': finaldate})
@@ -324,14 +353,14 @@ def result_teampursuit(request):
 def result_teamsprint(request):
     todaydate = date.today()
     finaldate = date(2020, 10, 14)
-    u15m = rider.objects.order_by('ts_time').filter(ts_time__gt=0, agegroup='JM15')
-    u15w = rider.objects.order_by('ts_time').filter(ts_time__gt=0, agegroup='JW15')
-    u17m = rider.objects.order_by('ts_time').filter(ts_time__gt=0, agegroup='JM17')
-    u17w = rider.objects.order_by('ts_time').filter(ts_time__gt=0, agegroup='JW17')
-    u19m = rider.objects.order_by('ts_time').filter(ts_time__gt=0, agegroup='JM19')
-    u19w = rider.objects.order_by('ts_time').filter(ts_time__gt=0, agegroup='JW19')
-    elitem = rider.objects.order_by('ts_time').filter(ts_time__gt=0, agegroup='ELITEM')
-    elitew = rider.objects.order_by('ts_time').filter(ts_time__gt=0, agegroup='ELITEW')
+    u15m = rider.objects.order_by('ts_adjusted_time').filter(ts_time__gt=0, agegroup='JM15')
+    u15w = rider.objects.order_by('ts_adjusted_time').filter(ts_time__gt=0, agegroup='JW15')
+    u17m = rider.objects.order_by('ts_adjusted_time').filter(ts_time__gt=0, agegroup='JM17')
+    u17w = rider.objects.order_by('ts_adjusted_time').filter(ts_time__gt=0, agegroup='JW17')
+    u19m = rider.objects.order_by('ts_adjusted_time').filter(ts_time__gt=0, agegroup='JM19')
+    u19w = rider.objects.order_by('ts_adjusted_time').filter(ts_time__gt=0, agegroup='JW19')
+    elitem = rider.objects.order_by('ts_adjusted_time').filter(ts_time__gt=0, agegroup='ELITEM')
+    elitew = rider.objects.order_by('ts_adjusted_time').filter(ts_time__gt=0, agegroup='ELITEW')
     return render(request, 'web/result_teamsprint.html',
                   {'jm15': u15m, 'jw15': u15w, 'jm17': u17m, 'jw17': u17w, 'jm19': u19m, 'jw19': u19w, 'elitem': elitem,
                    'elitew': elitew, 'timedate': todaydate, 'finaldate': finaldate})

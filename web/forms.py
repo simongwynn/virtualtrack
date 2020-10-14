@@ -11,7 +11,7 @@ class PursuitForm(ModelForm):
             'ip_time': 'Individual Pursuit Minute',
             'ip_time_second': 'Individual Pursuit Seconds/Splitseconds (ss.kkk)',
             'ip_temp': 'Individual Pursuit Temperature',
-            'ip_bp': 'Individual Pursuit Biometric Pressure',
+            'ip_bp': 'Individual Pursuit Barometric Pressure',
             'ip_humdity': 'Individual Pursuit Humidity (Percentage)',
         }
 
@@ -23,7 +23,7 @@ class Flying200Form(ModelForm):
             'number': 'Race No.',
             'tt200_time': 'Flying 200m Time(ss.kkk)',
             'tt200_temp': 'Flying 200m Temperature',
-            'tt200_bp': 'Flying 200m Biometric Pressure',
+            'tt200_bp': 'Flying 200m Barometric Pressure',
             'tt200_humdity': 'Flying 200m Pursuit Humidity (Percentage)',
         }
 class TeamSprintForm(ModelForm):
@@ -34,7 +34,7 @@ class TeamSprintForm(ModelForm):
             'number': 'Race No.',
             'ts_time': 'Team Sprint Time (ss.kkk)',
             'ts_temp': 'Team Sprint Temperature',
-            'ts_bp': 'Team Sprint Biometric Pressure',
+            'ts_bp': 'Team Sprint Barometric Pressure',
             'ts_humdity': ' Team Sprint Humidity (Percentage)'
         }
 
@@ -47,7 +47,7 @@ class TeamPursuitForm(ModelForm):
             'tp_time': 'Team Pursuit Minute',
             'tp_time_second': 'Individual Pursuit Seconds/Splitseconds (ss.kkk)',
             'tp_temp': 'Team Pursuit Temperature',
-            'tp_bp': 'Team Pursuit Biometric Pressure',
+            'tp_bp': 'Team Pursuit Barometric Pressure',
             'tp_humdity': 'Team Pursuit Humidity (Percentage)'
         }
 
@@ -59,9 +59,9 @@ class TimeTrialForm(ModelForm):
             'number': 'Race No.',
             'tt_time': 'Time Trial Minute',
             'tt_time_second': 'Time Trial Seconds/Splitseconds (ss.kkk)',
-            'tt_temp': 'Team Pursuit Temperature',
-            'tt_bp': 'Team Pursuit Biometric Pressure',
-            'tt_humdity': 'Team Pursuit Humidity (Percentage)'
+            'tt_temp': 'Time Trial Temperature',
+            'tt_bp': 'Time Trial Barometric Pressure',
+            'tt_humdity': 'Time Trial Humidity (Percentage)'
         }
 
 class AddRiderForm(ModelForm):
