@@ -2,9 +2,28 @@ from django.db import models
 from django.contrib.auth.models import User
 from datetime import datetime
 
+class Event(models.Model):
+    name = models.CharField(null = True, max_length=100)
+    date = models.DateField(null=True)
+    finish = models.DateField(null=True)
+    image = models.ImageField(upload_to='events/images/', null=True)
+    National = 'Nat'
+    NJTS = 'NJTS'
+    event_option_choices = [
+        (National, 'National'),
+        (NJTS, 'NJTS')
+    ]
+    event_option = models.CharField(
+        max_length=8,
+        choices=event_option_choices,
+        default=National
+    )
+
+    def __str__(self):
+        return self.name
 
 class rider(models.Model):
-    number = models.IntegerField(primary_key=True)
+    number = models.IntegerField()
     name = models.CharField(max_length=50)
     Individual = 'Ind'
     Team = 'Team'
@@ -143,10 +162,15 @@ class rider(models.Model):
     created = models.DateTimeField(auto_now_add=True, editable=False, null=False, blank=False)
     last_modified = models.DateTimeField(auto_now=True, editable=False, null=False, blank=False)
     user = models.ForeignKey(User,null=True, on_delete=models.CASCADE)
+    event = models.ForeignKey(Event,null=True, on_delete=models.CASCADE, default=3)
 
 
     def __str__(self):
-        return self.name
+        riderdetails = str(self.number) + ' - ' + self.name + ' (' + self.state + ')' + ' - ' + str(self.event)
+        return riderdetails
+
+    class Meta(object):
+        ordering = ['-event','-id']
 
 
 

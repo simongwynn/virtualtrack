@@ -1,13 +1,18 @@
 {% extends 'web/base.html'%}
 
 {% block content %}
+<center>
+    <h1><b><u>{{ event.name }}</u> </b></h1>
+    </center>
 <a href="../"><button type="submit" class="btn btn-dark" style="position: absolute; right: 0;">Back</button></a><h1>Team Pursuit Results</h1>
+
      {% if timedate <= finaldate %}
 <h2><u>Provisional</u></h2>
     {% else %}
     <h2><u>Final Result</u></h2>
 {% endif %}
 <br>
+{% if event.team_option == "Nat" %}
 <div class="tab">
   <button class="tablinks" onclick="openCity(event, 'U15M')" id="defaultOpen">Under 15 Men</button>
     <button class="tablinks" onclick="openCity(event, 'U15W')">Under 15 Women</button>
@@ -25,8 +30,8 @@
 {% for result in jm15 %}
 
 <tr style = "color:black">
-  <th style="width:50px">{{ forloop.counter }}.</th>
-<th style="width:250px">  <a style = "color:black" href="/riders/{{ result.number }}">{{ result.name }}({{ result.state }})</a></th>
+  <th style="width:50px">{% if result.tp_ineligable %} {% else %} {{ forloop.counter }}.{% endif %}</th>
+<th style="width:250px">  <a style = "color:black" href="/{{ event.id }}/riders/{{ result.id }}">{{ result.name }}({{ result.state }})</a></th>
   <th style="width:250px">{{ result.velodrome }}</th>
   <th>{{ result.tp_time }}:{{ result.tp_time_second }} (actual time) <b>{{ result.tp_adjusted_time }}:{{ result.tp_adjusted_second }} (adjusted time)</b></th>
   </tr>
@@ -39,8 +44,8 @@
 {% for result in jw15 %}
 
 <tr style = "color:black">
-  <th style="width:50px">{{ forloop.counter }}.</th>
-<th style="width:250px">  <a style = "color:black" href="/riders/{{ result.number }}">{{ result.name }}({{ result.state }})</a></th>
+  <th style="width:50px">{% if result.tp_ineligable %} {% else %} {{ forloop.counter }}.{% endif %}</th>
+<th style="width:250px">  <a style = "color:black" href="/{{ event.id }}/riders/{{ result.id }}">{{ result.name }}({{ result.state }})</a></th>
   <th style="width:250px">{{ result.velodrome }}</th>
   <th>{{ result.tp_time }}:{{ result.tp_time_second }} (actual time) <b>{{ result.tp_adjusted_time }}:{{ result.tp_adjusted_second }} (adjusted time)</b></th>
   </tr>
@@ -53,8 +58,8 @@
 {% for result in jm17 %}
 
 <tr style = "color:black">
-  <th style="width:50px">{{ forloop.counter }}.</th>
-<th style="width:250px">  <a style = "color:black" href="/riders/{{ result.number }}">{{ result.name }}({{ result.state }})</a></th>
+  <th style="width:50px">{% if result.tp_ineligable %} {% else %} {{ forloop.counter }}.{% endif %}</th>
+<th style="width:250px">  <a style = "color:black" href="/{{ event.id }}/riders/{{ result.id }}">{{ result.name }}({{ result.state }})</a></th>
   <th style="width:250px">{{ result.velodrome }}</th>
   <th>{{ result.tp_time }}:{{ result.tp_time_second }} (actual time) <b>{{ result.tp_adjusted_time }}:{{ result.tp_adjusted_second }} (adjusted time)</b></th>
   </tr>
@@ -67,8 +72,8 @@
 {% for result in jw17 %}
 
 <tr style = "color:black">
-  <th style="width:50px">{{ forloop.counter }}.</th>
-<th style="width:250px">  <a style = "color:black" href="/riders/{{ result.number }}">{{ result.name }}({{ result.state }})</a></th>
+  <th style="width:50px">{% if result.tp_ineligable %} {% else %} {{ forloop.counter }}.{% endif %}</th>
+<th style="width:250px">  <a style = "color:black" href="/{{ event.id }}/riders/{{ result.id }}">{{ result.name }}({{ result.state }})</a></th>
   <th style="width:250px">{{ result.velodrome }}</th>
   <th>{{ result.tp_time }}:{{ result.tp_time_second }} (actual time) <b>{{ result.tp_adjusted_time }}:{{ result.tp_adjusted_second }} (adjusted time)</b></th>
   </tr>
@@ -81,8 +86,8 @@
 {% for result in jm19 %}
 
 <tr style = "color:black">
-  <th style="width:50px">{{ forloop.counter }}.</th>
-<th style="width:250px">  <a style = "color:black" href="/riders/{{ result.number }}">{{ result.name }}({{ result.state }})</a></th>
+  <th style="width:50px">{% if result.tp_ineligable %} {% else %} {{ forloop.counter }}.{% endif %}</th>
+<th style="width:250px">  <a style = "color:black" href="/{{ event.id }}/riders/{{ result.id }}">{{ result.name }}({{ result.state }})</a></th>
   <th style="width:250px">{{ result.velodrome }}</th>
   <th>{{ result.tp_time }}:{{ result.tp_time_second }} (actual time) <b>{{ result.tp_adjusted_time }}:{{ result.tp_adjusted_second }} (adjusted time)</b></th>
   </tr>
@@ -95,8 +100,8 @@
 {% for result in jw19 %}
 
 <tr style = "color:black">
-  <th style="width:50px">{{ forloop.counter }}.</th>
-<th style="width:250px">  <a style = "color:black" href="/riders/{{ result.number }}">{{ result.name }}({{ result.state }})</a></th>
+  <th style="width:50px">{% if result.tp_ineligable %} {% else %} {{ forloop.counter }}.{% endif %}</th>
+<th style="width:250px">  <a style = "color:black" href="/{{ event.id }}/riders/{{ result.id }}">{{ result.name }}({{ result.state }})</a></th>
   <th style="width:250px">{{ result.velodrome }}</th>
   <th>{{ result.tp_time }}:{{ result.tp_time_second }} (actual time) <b>{{ result.tp_adjusted_time }}:{{ result.tp_adjusted_second }} (adjusted time)</b></th>
   </tr>
@@ -109,8 +114,8 @@
 {% for result in elitem %}
 
 <tr style = "color:black">
-  <th style="width:50px">{{ forloop.counter }}.</th>
-<th style="width:250px">  <a style = "color:black" href="/riders/{{ result.number }}">{{ result.name }}({{ result.state }})</a></th>
+  <th style="width:50px">{% if result.tp_ineligable %} {% else %} {{ forloop.counter }}.{% endif %}</th>
+<th style="width:250px">  <a style = "color:black" href="/{{ event.id }}/riders/{{ result.id }}">{{ result.name }}({{ result.state }})</a></th>
   <th style="width:250px">{{ result.velodrome }}</th>
   <th>{{ result.tp_time }}:{{ result.tp_time_second }} (actual time) <b>{{ result.tp_adjusted_time }}:{{ result.tp_adjusted_second }} (adjusted time)</b></th>
   </tr>
@@ -123,15 +128,34 @@
 {% for result in elitew %}
 
 <tr style = "color:black">
-  <th style="width:50px">{{ forloop.counter }}.</th>
-<th style="width:250px">  <a style = "color:black" href="/riders/{{ result.number }}">{{ result.name }}({{ result.state }})</a></th>
+  <th style="width:50px">{% if result.tp_ineligable %} {% else %} {{ forloop.counter }}.{% endif %}</th>
+<th style="width:250px">  <a style = "color:black" href="/{{ event.id }}/riders/{{ result.id }}">{{ result.name }}({{ result.state }})</a></th>
   <th style="width:250px">{{ result.velodrome }}</th>
   <th>{{ result.tp_time }}:{{ result.tp_time_second }} (actual time) <b>{{ result.tp_adjusted_time }}:{{ result.tp_adjusted_second }} (adjusted time)</b></th>
   </tr>
 {% endfor %}
   </table>
 </div>
+{% endif %}
+{% if event.team_option == "NJTS" %}
+<div class="tab">
+  <button class="tablinks" onclick="openCity(event, 'Mixed')" id="defaultOpen">Mixed Grade</button>
+  </div>
+<div id="Mixed" class="tabcontent">
+<h2>Mixed Grade</h2>
+<table>
+{% for result in mixed %}
 
+<tr style = "color:black">
+  <th style="width:50px">{% if result.tp_ineligable %} {% else %} {{ forloop.counter }}.{% endif %}</th>
+<th style="width:250px">  <a style = "color:black" href="/{{ event.id }}/riders/{{ result.id }}">{{ result.name }}({{ result.state }})</a></th>
+  <th style="width:250px">{{ result.velodrome }}</th>
+  <th>{{ result.tp_time }}:{{ result.tp_time_second }} (actual time) <b>{{ result.tp_adjusted_time }}:{{ result.tp_adjusted_second }} (adjusted time)</b></th>
+  </tr>
+{% endfor %}
+  </table>
+</div>
+{% endif %}
 <script>
     function openCity(evt, cityName) {
   // Declare all variables

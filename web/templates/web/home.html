@@ -1,55 +1,28 @@
 {% extends 'web/base.html'%}
 
+{% load static %}
+
 {% block content %}
-<div class="container" style = "height:100%">
-
-    <table style = height:"100px">
-        <tr>
-            <th><a href="riders/"><div class="frontimage"><img style = "width:100%" src="/static/web/startlist.png"></div></a></th>
-            <th><a href="results/"><div class="frontimage"><img style = "width:100%" src="/static/web/timer.png"></div></a></th>
-        </tr>
-        <tr style = "text-align:center">
-            <td><a href="riders/" style = "color:black"><h1>Riders</h1></a></td>
-            <td><a href="results/" style = "color:black"><h1>Results</h1></a></td>
-        </tr>
-    </table>
-
-</div>
-
-
-
-
-
-
-
-
+<center>
+<img src="/static/web/sportst.png">
+</center>
+<br>
+<h1 align = 'Center' style="color:#000080"><b><u>Virtual Track Application</u></b></h1>
+<br>
+<br>
+<h3>Events:</h3>
 <hr>
-<h2>Latest Results:</h2>
-<br>
-{% for rider in riders %}
-{% if rider.user != None %}
-<div class="btn-group">
-    <a href="riders/{{ rider.number }}">
+ {% for event in eventlist %}
+<div class="btn-group3">
+    <a href="{{ event.id }}">
 <button>
-<img src="/static/web/{{ rider.state }}.jpg" height = "50">  <b> {{ rider.number }}. {{ rider.name }} ({{ rider.state }}) - {{ rider.agegroup }}- {{ rider.velodrome }} </b> -
-{% if rider.ip_time_second != None %}
-<b>IP:</b> {{ rider.ip_time }}:{{ rider.ip_time_second }} (actual time) {{ rider.ip_adjusted_time }}:{{ rider.ip_adjusted_second }} (adjusted time)
-{% endif %}
-{% if rider.tt200_time != None %}
-<b>Flying 200m:</b> {{ rider.tt200_time }}(actual time) {{ rider.tt200_adjusted_time }} (adjusted time){% endif %}
-{% if rider.ts_time != None %}
-<b>Team Sprint:</b> {{ rider.ts_time }}(actual time) {{ rider.ts_adjusted_time }} (adjusted time){% endif %}
-{% if rider.tp_time_second != None %}
-<b>TP:</b> {{ rider.tp_time }}:{{ rider.tp_time_second }} (actual time) {{ rider.tp_adjusted_time }}:{{ rider.tp_adjusted_second }} (adjusted time){% endif %}
-{% if rider.tt_time_second != None %}
-<b>TT:</b> {% if rider.tt_time == None %} {{ rider.tt_time_second }} (actual time) {% else %}{{ rider.tt_time }}:{{ rider.tt_time_second }}(actual time) {% endif %}
-{% if rider.tt_adjusted_time == None %}{{ rider.tt_adjusted_second }} {% else %}{{ rider.tt_adjusted_time }}:{{ rider.tt_adjusted_second }} {% endif %}(adjusted time){% endif %}
-<br>
-</button>
+    <h3><img src="{{ event.image.url }}" width = "150">   {{ event.name }} - {{ event.date }}</h3>
+
+    </button>
         </a>
 </div>
-{% endif %}
 {% endfor %}
+
 <br>
 <br>
 {% endblock %}

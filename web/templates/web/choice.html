@@ -1,0 +1,26 @@
+{% extends 'web/base.html'%}
+
+{% block content %}
+<center>
+<img src="/static/web/sportst.png">
+</center>
+<br>
+<h1 align = 'Center' style="color:#000080"><b><u>Virtual Track Application</u></b></h1>
+<br>
+<br>
+<h3>SELECT EVENT TO UPLOAD:</h3>
+<hr>
+ {% for event in eventlist %}
+<div class="btn-group">
+    <a href="../{{ event.id }}/uploadride/">
+<button>
+    <h3>{{ event.name }} - {{ event.date }}</h3>
+
+    </button>
+        </a>
+</div>
+{% endfor %}
+
+<br>
+<br>
+{% endblock %}

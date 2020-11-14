@@ -1,6 +1,9 @@
 {% extends 'web/base.html'%}
 
 {% block content %}
+<center>
+    <h1><b>{{ events.name }} </b></h1>
+    </center>
 <a href="../"><button type="submit" class="btn btn-dark" style="position: absolute; right: 0;">Back</button></a>
 <div class="container">
 <h1><u>Riders</u></h1>
@@ -11,7 +14,7 @@
     {% if rider.team_option == "Ind" %}
 
 <div class="btn-group2">
-    <a href="./{{ rider.number }}">
+    <a href="./{{ rider.id }}">
 <button>
     <b>{{ rider.number }}. {{ rider.name }} ({{ rider.state }}) {{ rider.agegroup }}</b>
 
@@ -32,7 +35,7 @@
         {% for rider in riders %}
     {% if rider.team_option == "Team" %}
 <div class="btn-group2">
-    <a href="./{{ rider.number }}">
+    <a href="./{{ rider.id }}">
 <button>
     <b>{{ rider.number }} {{ rider.name }} ({{ rider.state }}) {{ rider.agegroup }}</b>
 </button>

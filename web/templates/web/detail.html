@@ -5,9 +5,23 @@
  <a href="../"><button type="submit" class="btn btn-dark" style="position: absolute; right: 0;">Back</button></a>
 <br>
 <div class="container">
-<h1> {{ riders.number }}. {{ riders.name }} ({{ riders.state }})<img src="/static/web/{{ riders.state }}.jpg"></h1>
+<center>
+    <h1><b><u>{{ events.name }}</u> </b></h1>
+    </center>
+    <br>
+    <br>
+
+<h1> {{ riders.number }}. {{ riders.name }} ({{ riders.state }})<img src="/static/web/{{ riders.state }}.svg"></h1>
 <h5>Velodrome: {{ riders.velodrome }}</h5>
+    {% if riders.team_option == "Team" %}
+    {% if events.team_option == "Nat" %}
 <h5>Age Category: {{ riders.agegroup }}</h5>
+    {% endif %}
+    {% endif %}
+    {% if riders.team_option != "Team" %}
+    <h5>Age Category: {{ riders.agegroup }}</h5>
+    {% endif %}
+
 <hr>
 {% if riders.team_option == "Team" %}
 <ul>{{ riders.team_member1 }}</ul>

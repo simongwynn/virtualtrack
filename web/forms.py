@@ -1,5 +1,6 @@
 from django.forms import ModelForm
 from .models import rider
+from django import forms
 
 
 class PursuitForm(ModelForm):
@@ -67,4 +68,4 @@ class TimeTrialForm(ModelForm):
 class AddRiderForm(ModelForm):
     class Meta:
         model = rider
-        fields = ['number', 'name', 'team_option', 'state','velodrome','team_member1','team_member2','team_member3','team_member4', 'agegroup']
+        fields = ['number', 'name', 'team_option', 'state','velodrome','team_member1','team_member2','team_member3','team_member4', 'agegroup', 'event']

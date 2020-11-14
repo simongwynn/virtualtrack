@@ -3,19 +3,24 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.db import IntegrityError
 from django.contrib.auth import login, logout, authenticate
-from .models import rider
+from .models import rider, Event
 from .forms import PursuitForm, Flying200Form, TeamSprintForm, TeamPursuitForm, AddRiderForm, TimeTrialForm
 from django.contrib.auth.decorators import login_required
 from datetime import timedelta,date, datetime
+from django.urls import include, path
 from time import strftime
 from time import gmtime
 import math
 
 
 def home(request):
-    riderlist = rider.objects.order_by('-last_modified')[:5]
-    return render(request, 'web/home.html', {'riders': riderlist})
+    eventlist = Event.objects.order_by('-date')[:10]
+    return render(request, 'web/home.html', {'eventlist': eventlist})
 
+def event(request, Event_id):
+    events = get_object_or_404(Event, pk=Event_id)
+    riderlist = rider.objects.filter(event=Event_id).order_by('-last_modified')[:5]
+    return render(request, 'web/event.html', {'events': events, 'riders': riderlist})
 
 def signupuser(request):
     if request.method == 'GET':
@@ -45,7 +50,12 @@ def loginuser(request):
                           {'form': AuthenticationForm(), 'error': 'Username and password are incorrect'})
         else:
             login(request, user)
-            return redirect('uploadride')
+            return redirect('uploadoptions')
+
+
+def uploadoptions(request):
+    eventlist = Event.objects.order_by('-date')[:10]
+    return render(request, 'web/choice.html', {'eventlist': eventlist})
 
 
 def logoutuser(request):
@@ -54,21 +64,25 @@ def logoutuser(request):
         return redirect('home')
 
 
-def uploadride(request):
-    return render(request, 'web/uploadride.html')
+def uploadride(request, Event_id):
+    events = get_object_or_404(Event, pk=Event_id)
+    return render(request, 'web/uploadride.html', {'events':events})
 
 def flying_correction(time_in_sec, temperature_in_celsius, pressure, percentage_humidity):
     return round(
         math.pow((1.17295483302624) / ((pressure * (100.0) - percentage_humidity * ((6.1078) * math.pow(10.0, ((7.5) * temperature_in_celsius) / ((237.7) + temperature_in_celsius)))) / ((temperature_in_celsius + (273.15)) * (287.05)) + (percentage_humidity * ((6.1078) * math.pow(10.0, ((7.5) * temperature_in_celsius) / ((237.7) + temperature_in_celsius)))) / ((temperature_in_celsius + (273.15)) * (461.495))), (0.3277)) * time_in_sec, 3)
 
 @login_required
-def ip(request):
+def ip(request, Event_id):
+    events = get_object_or_404(Event, pk=Event_id)
     if request.method == 'GET':
-        return render(request, 'web/ip.html', {'form': PursuitForm()})
+        return render(request, 'web/ip.html', {'form': PursuitForm(), 'events':events})
     else:
         if request.user.is_authenticated:
             try:
-                instance = get_object_or_404(rider, number=request.POST['number'])
+                item2 = rider.objects.filter(number=request.POST['number'],                                             event=Event_id)  # how we work out the person to change
+                id = item2[0].id  # how we work out the person to change
+                instance = get_object_or_404(rider, pk=id)
                 form = PursuitForm(request.POST, instance=instance)
                 if request.POST['ip_time'] == '':
                     ip_time = 0
@@ -97,20 +111,24 @@ def ip(request):
                 instance.user = request.user
                 if form.is_valid():
                     form.save()
-                    return redirect('uploadride')
+                    return render(request, 'web/ip.html', {'form': PursuitForm(), 'error': 'Successfully Uploaded', 'events':events})
             except:
-                return render(request, 'web/ip.html', {'form': PursuitForm(), 'error': 'User does not exist'})
+                return render(request, 'web/ip.html', {'form': PursuitForm(), 'error': 'User does not exist', 'events':events})
         else:
-            return render(request, 'web/ip.html', {'form': PursuitForm()})
+            return render(request, 'web/ip.html', {'form': PursuitForm(), 'events':events})
 
 @login_required
-def tt(request):
+def tt(request, Event_id):
+    events = get_object_or_404(Event, pk=Event_id)
     if request.method == 'GET':
-        return render(request, 'web/tt.html', {'form': TimeTrialForm()})
+        return render(request, 'web/tt.html', {'form': TimeTrialForm(), 'events':events})
     else:
         if request.user.is_authenticated:
             try:
-                instance = get_object_or_404(rider, number=request.POST['number'])
+                item2 = rider.objects.filter(number=request.POST['number'],
+                                             event=Event_id)  # how we work out the person to change
+                id = item2[0].id  # how we work out the person to change
+                instance = get_object_or_404(rider, pk=id)
                 form = TimeTrialForm(request.POST, instance=instance)
                 if request.POST['tt_time'] == '':
                     tt_time = 0
@@ -139,20 +157,24 @@ def tt(request):
                 instance.user = request.user
                 if form.is_valid():
                     form.save()
-                    return redirect('uploadride')
+                    return render(request, 'web/tt.html', {'form': TimeTrialForm(), 'error': 'Successfully Uploaded', 'events':events})
             except:
-                return render(request, 'web/tt.html', {'form': TimeTrialForm(), 'error': 'User does not exist'})
+                return render(request, 'web/tt.html', {'form': TimeTrialForm(), 'error': 'User does not exist', 'events':events})
         else:
-            return render(request, 'web/tt.html', {'form': TimeTrialForm()})
+            return render(request, 'web/tt.html', {'form': TimeTrialForm(), 'events':events})
 
 @login_required
-def flying200(request):
+def flying200(request, Event_id):
+    events = get_object_or_404(Event, pk=Event_id)
     if request.method == 'GET':
-        return render(request, 'web/flying200.html', {'form': Flying200Form()})
+        return render(request, 'web/flying200.html', {'form': Flying200Form(), 'events':events})
     else:
         if request.user.is_authenticated:
             try:
-                instance = get_object_or_404(rider, number=request.POST['number'])
+                item2 = rider.objects.filter(number=request.POST['number'],
+                                             event=Event_id)  # how we work out the person to change
+                id = item2[0].id  # how we work out the person to change
+                instance = get_object_or_404(rider, pk=id)
                 form = PursuitForm(request.POST, instance=instance)
                 x = flying_correction(float(request.POST['tt200_time']),
                                       float(request.POST['tt200_temp']), float(request.POST['tt200_bp']),
@@ -169,20 +191,24 @@ def flying200(request):
                 instance.user = request.user
                 if form.is_valid():
                     form.save()
-                    return redirect('uploadride')
+                    return render(request, 'web/flying200.html', {'form': Flying200Form(), 'error': 'Successfully Uploaded', 'events':events})
             except:
-                return render(request, 'web/flying200.html', {'form': Flying200Form(), 'error': 'User does not exist'})
+                return render(request, 'web/flying200.html', {'form': Flying200Form(), 'error': 'User does not exist', 'events':events})
         else:
-            return render(request, 'web/flying200.html', {'form': Flying200Form()})
+            return render(request, 'web/flying200.html', {'form': Flying200Form(), 'events':events})
 
 @login_required
-def teampursuit(request):
+def teampursuit(request, Event_id):
+    events = get_object_or_404(Event, pk=Event_id)
     if request.method == 'GET':
-        return render(request, 'web/teampursuit.html', {'form': TeamPursuitForm()})
+        return render(request, 'web/teampursuit.html', {'form': TeamPursuitForm(), 'events':events})
     else:
         if request.user.is_authenticated:
             try:
-                instance = get_object_or_404(rider, number=request.POST['number'])
+                item2 = rider.objects.filter(number=request.POST['number'],
+                                             event=Event_id)  # how we work out the person to change
+                id = item2[0].id  # how we work out the person to change
+                instance = get_object_or_404(rider, pk=id)
                 form = TeamPursuitForm(request.POST, instance=instance)
                 instance.tp_time_total = int(request.POST['tp_time']) * 60 + float(request.POST['tp_time_second'])
                 x = flying_correction(int(request.POST['tp_time']) * 60 + float(request.POST['tp_time_second']),
@@ -208,21 +234,26 @@ def teampursuit(request):
                 if form.is_valid():
                     form.save()
                     instance.user = request.user
-                    return redirect('uploadride')
+                    return render(request, 'web/teampursuit.html',
+                                  {'form': TeamPursuitForm(), 'error': 'Successfully Uploaded', 'events':events})
             except:
                 return render(request, 'web/teampursuit.html',
-                              {'form': TeamPursuitForm(), 'error': 'User does not exist'})
+                              {'form': TeamPursuitForm(), 'error': 'User does not exist', 'events':events})
         else:
-            return render(request, 'web/teampursuit.html', {'form': TeamPursuitForm()})
+            return render(request, 'web/teampursuit.html', {'form': TeamPursuitForm(), 'events':events})
 
 @login_required
-def teamsprint(request):
+def teamsprint(request, Event_id):
+    events = get_object_or_404(Event, pk=Event_id)
     if request.method == 'GET':
-        return render(request, 'web/teamsprint.html', {'form': TeamSprintForm()})
+        return render(request, 'web/teamsprint.html', {'form': TeamSprintForm(), 'events':events})
     else:
         if request.user.is_authenticated:
             try:
-                instance = get_object_or_404(rider, number=request.POST['number'])
+                item2 = rider.objects.filter(number=request.POST['number'],
+                                             event=Event_id)  # how we work out the person to change
+                id = item2[0].id  # how we work out the person to change
+                instance = get_object_or_404(rider, pk=id)
                 form = TeamSprintForm(request.POST, instance=instance)
                 x = flying_correction(float(request.POST['ts_time']),
                                       float(request.POST['ts_temp']), float(request.POST['ts_bp']),
@@ -236,52 +267,65 @@ def teamsprint(request):
                 instance.user = request.user
                 if form.is_valid():
                     form.save()
-                    return redirect('uploadride')
+                    return render(request, 'web/teamsprint.html',
+                                  {'form': TeamSprintForm(), 'error': 'Successfully Uploaded', 'events':events})
             except:
                 return render(request, 'web/teamsprint.html',
-                              {'form': TeamSprintForm(), 'error': 'User does not exist'})
+                              {'form': TeamSprintForm(), 'error': 'User does not exist', 'events':events})
         else:
-            return render(request, 'web/teamsprint.html', {'form': TeamPursuitForm()})
+            return render(request, 'web/teamsprint.html', {'form': TeamPursuitForm(), 'events':events})
 
 @login_required
-def newrider(request):
+def newrider(request, Event_id):
+        events = get_object_or_404(Event, pk=Event_id)
+        riders = rider.objects.filter(event=Event_id)
         if request.method == 'GET':
-            return render(request, 'web/newrider.html', {'form': AddRiderForm()})
+            return render(request, 'web/newrider.html', {'form': AddRiderForm(), 'events':events})
         else:
             if request.user.is_authenticated:
+                item = rider.objects.filter(number=request.POST['number'], event=Event_id).count()
+                if item == 0:
                     form = AddRiderForm(request.POST)
-                    form.user = request.user
                     if form.is_valid():
                         form.save()
-                        return redirect('uploadride')
+                        return render(request, 'web/newrider.html', {'form': AddRiderForm(), 'events':events})
                     else:
-                        return render(request, 'web/newrider.html', {'form': AddRiderForm(), 'error': 'That number is taken, try again with another number'})
+                        return render(request, 'web/newrider.html', {'form': AddRiderForm(), 'error': 'That number is taken, try again with another number', 'events':events})
+                else:
+                    return render(request, 'web/newrider.html',
+                                  {'form': AddRiderForm(), 'error': 'That number is taken, try again with another number', 'events':events})
             else:
-                return render(request, 'web/newrider.html', {'form': AddRiderForm()})
+                return render(request, 'web/newrider.html', {'form': AddRiderForm(), 'events':events})
 
 @login_required
-def log(request):
-    riderlist = rider.objects.order_by('-last_modified')
-    return render(request, 'web/log.html', {'riders': riderlist})
+def log(request, Event_id):
+    events = get_object_or_404(Event, pk=Event_id)
+    riderlist = rider.objects.filter(event=Event_id).order_by('-last_modified')
+    return render(request, 'web/log.html', {'riders': riderlist, 'events':events})
 
 
-def riderlist(request):
-    riderlist = rider.objects.order_by('number')
-    return render(request, 'web/riders.html', {'riders': riderlist})
+def riderlist(request, Event_id):
+    events = get_object_or_404(Event, pk=Event_id)
+    riderlist = rider.objects.filter(event=Event_id).order_by('number')
+    return render(request, 'web/riders.html', {'riders': riderlist, 'events':events})
 
 
-def detail(request, rider_id):
+def detail(request, rider_id, Event_id):
     riders = get_object_or_404(rider, pk=rider_id)
-    return render(request, 'web/detail.html', {'riders': riders})
+    events = get_object_or_404(Event, pk=Event_id)
+
+    return render(request, 'web/detail.html', {'riders': riders, 'events':events})
 
 
-def result(request):
-    return render(request, 'web/result.html')
+def result(request, Event_id):
+    events = get_object_or_404(Event, pk=Event_id)
+    return render(request, 'web/result.html', {'events':events})
 
 
-def result_ip(request):
+def result_ip(request, Event_id):
+    events = get_object_or_404(Event, pk=Event_id)
     todaydate= date.today()
-    finaldate = date(2020, 10, 12)
+    finaldate = events.finish
     u15m = rider.objects.order_by('ip_time_total_adjusted').filter(ip_time_total__gt=0, agegroup='JM15')
     u15w = rider.objects.order_by('ip_time_total_adjusted').filter(ip_time_total__gt=0, agegroup='JW15')
     u17m = rider.objects.order_by('ip_time_total_adjusted').filter(ip_time_total__gt=0, agegroup='JM17')
@@ -294,11 +338,12 @@ def result_ip(request):
     parac = rider.objects.order_by('ip_time_total_adjusted').filter(ip_time_total__gt=0, agegroup='Para-C')
     return render(request, 'web/result_ip.html',
                   {'jm15': u15m, 'jw15': u15w, 'jm17': u17m, 'jw17': u17w, 'jm19': u19m, 'jw19': u19w, 'elitem': elitem,
-                   'elitew': elitew, 'parab': parab, 'parac': parac, 'timedate': todaydate,'finaldate': finaldate })
+                   'elitew': elitew, 'parab': parab, 'parac': parac, 'timedate': todaydate,'finaldate': finaldate, 'event':events })
 
-def result_tt(request):
+def result_tt(request, Event_id):
+    events = get_object_or_404(Event, pk=Event_id)
     todaydate = date.today()
-    finaldate = date(2020, 10, 12)
+    finaldate = events.finish
     u15m = rider.objects.order_by('tt_time_total_adjusted').filter(tt_time_total__gt=0, agegroup='JM15')
     u15w = rider.objects.order_by('tt_time_total_adjusted').filter(tt_time_total__gt=0, agegroup='JW15')
     u17m = rider.objects.order_by('tt_time_total_adjusted').filter(tt_time_total__gt=0, agegroup='JM17')
@@ -311,12 +356,13 @@ def result_tt(request):
     parac = rider.objects.order_by('tt_time_total_adjusted').filter(tt_time_total__gt=0, agegroup='Para-C')
     return render(request, 'web/result_tt.html',
                   {'jm15': u15m, 'jw15': u15w, 'jm17': u17m, 'jw17': u17w, 'jm19': u19m, 'jw19': u19w, 'elitem': elitem,
-                   'elitew': elitew, 'parab': parab, 'parac': parac, 'timedate': todaydate, 'finaldate': finaldate})
+                   'elitew': elitew, 'parab': parab, 'parac': parac, 'timedate': todaydate, 'finaldate': finaldate, 'event':events})
 
 
-def result_flying200(request):
+def result_flying200(request, Event_id):
+    events = get_object_or_404(Event, pk=Event_id)
     todaydate = date.today()
-    finaldate = date(2020, 10, 12)
+    finaldate = events.finish
     u15m = rider.objects.order_by('tt200_adjusted_time').filter(tt200_time__gt=0, agegroup='JM15')
     u15w = rider.objects.order_by('tt200_adjusted_time').filter(tt200_time__gt=0, agegroup='JW15')
     u17m = rider.objects.order_by('tt200_adjusted_time').filter(tt200_time__gt=0, agegroup='JM17')
@@ -329,14 +375,16 @@ def result_flying200(request):
     parac = rider.objects.order_by('tt200_adjusted_time').filter(tt200_time__gt=0, agegroup='Para-C')
     return render(request, 'web/result_flying200.html',
                   {'jm15': u15m, 'jw15': u15w, 'jm17': u17m, 'jw17': u17w, 'jm19': u19m, 'jw19': u19w, 'elitem': elitem,
-                   'elitew': elitew, 'parab': parab, 'parac': parac, 'timedate': todaydate, 'finaldate': finaldate})
+                   'elitew': elitew, 'parab': parab, 'parac': parac, 'timedate': todaydate, 'finaldate': finaldate, 'event':events})
 
     return render(request, 'web/result_flying200.html')
 
 
-def result_teampursuit(request):
+def result_teampursuit(request, Event_id):
+    events = get_object_or_404(Event, pk=Event_id)
     todaydate = date.today()
-    finaldate = date(2020, 10, 12)
+    finaldate = events.finish
+    mixed = rider.objects.order_by('tp_ineligable', 'tp_time_total_adjusted').filter(tp_time_total__gt=0)
     u15m = rider.objects.order_by('tp_ineligable', 'tp_time_total_adjusted').filter(tp_time_total__gt=0, agegroup='JM15')
     u15w = rider.objects.order_by('tp_ineligable', 'tp_time_total_adjusted').filter(tp_time_total__gt=0, agegroup='JW15')
     u17m = rider.objects.order_by('tp_ineligable', 'tp_time_total_adjusted').filter(tp_time_total__gt=0, agegroup='JM17')
@@ -347,12 +395,14 @@ def result_teampursuit(request):
     elitew = rider.objects.order_by('tp_ineligable', 'tp_time_total_adjusted').filter(tp_time_total__gt=0, agegroup='ELITEW')
     return render(request, 'web/result_teampursuit.html',
                   {'jm15': u15m, 'jw15': u15w, 'jm17': u17m, 'jw17': u17w, 'jm19': u19m, 'jw19': u19w, 'elitem': elitem,
-                   'elitew': elitew, 'timedate': todaydate, 'finaldate': finaldate})
+                   'elitew': elitew, 'timedate': todaydate, 'finaldate': finaldate, 'mixed':mixed, 'event':events})
 
 
-def result_teamsprint(request):
+def result_teamsprint(request, Event_id):
+    events = get_object_or_404(Event, pk=Event_id)
     todaydate = date.today()
-    finaldate = date(2020, 10, 12)
+    finaldate = events.finish
+    mixed = rider.objects.order_by('ts_ineligable', 'ts_adjusted_time').filter(ts_time__gt=0, )
     u15m = rider.objects.order_by('ts_ineligable', 'ts_adjusted_time').filter(ts_time__gt=0, agegroup='JM15')
     u15w = rider.objects.order_by('ts_ineligable', 'ts_adjusted_time').filter(ts_time__gt=0, agegroup='JW15')
     u17m = rider.objects.order_by('ts_ineligable', 'ts_adjusted_time').filter(ts_time__gt=0, agegroup='JM17')
@@ -363,4 +413,4 @@ def result_teamsprint(request):
     elitew = rider.objects.order_by('ts_ineligable', 'ts_adjusted_time').filter(ts_time__gt=0, agegroup='ELITEW')
     return render(request, 'web/result_teamsprint.html',
                   {'jm15': u15m, 'jw15': u15w, 'jm17': u17m, 'jw17': u17w, 'jm19': u19m, 'jw19': u19w, 'elitem': elitem,
-                   'elitew': elitew, 'timedate': todaydate, 'finaldate': finaldate})
+                   'elitew': elitew, 'timedate': todaydate, 'finaldate': finaldate, 'mixed':mixed, 'event':events})

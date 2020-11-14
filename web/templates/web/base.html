@@ -44,8 +44,18 @@
         }
 
         .btn-group button {
-  background-color: #000000; /* Green background */
-  border: 1px solid White; /* Green border */
+  background-color: #333333;
+  border: 1px solid White;
+  color: white; /* White text */
+  padding: 10px 24px; /* Some padding */
+  cursor: pointer; /* Pointer/hand icon */
+  width: 1580px; /* Set a width if needed */
+  display: block; /* Make the buttons appear below each other */
+  text-align: left;
+}
+        .btn-group3 button {
+  background-color: #000000;
+  border: 1px solid White;
   color: white; /* White text */
   padding: 10px 24px; /* Some padding */
   cursor: pointer; /* Pointer/hand icon */
@@ -70,6 +80,14 @@
 
 /* Add a background color on hover */
 .btn-group button:hover {
+  background-color: #595959;
+}
+/* Add a background color on hover */
+.btn-group2 button:hover {
+  background-color: #595959;
+}
+/* Add a background color on hover */
+.btn-group3 button:hover {
   background-color: #595959;
 }
 
@@ -154,8 +172,7 @@ Logged In as {{ user.username }}
 
 {% endif %}
 <br>
-<br>
-<br>
+
 
 {% block content %} {% endblock %}
 <br>

@@ -15,6 +15,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf.urls.static import static
+from django.conf import settings
 from web import views
 
 admin.site.site_header = "VirtualTrack Admin"
@@ -26,28 +28,32 @@ urlpatterns = [
     #Auth
     path('signup/', views.signupuser, name='signupuser'),
     path('login/', views.loginuser, name='loginuser'),
-    path('newrider/', views.newrider, name='newrider'),
+    path('<int:Event_id>/newrider/', views.newrider, name='newrider'),
     path('logout/', views.logoutuser, name='logoutuser'),
-    path('log/', views.log, name='log'),
+    path('uploadoptions/', views.uploadoptions, name='uploadoptions'),
+    path('<int:Event_id>/log/', views.log, name='log'),
 
 
     #Rides
     path('', views.home, name='home'),
-    path('riders/', views.riderlist, name='riderlist'),
-    path('uploadride/ip/', views.ip, name='ip'),
-    path('uploadride/', views.uploadride, name='uploadride'),
-    path('uploadride/flying200/', views.flying200, name='flying200'),
-    path('uploadride/teamsprint/', views.teamsprint, name='teamsprint'),
-    path('uploadride/teampursuit/', views.teampursuit, name='teampursuit'),
-    path('uploadride/tt/', views.tt, name='timetrial'),
-    path('riders/<int:rider_id>/', views.detail, name='detail'),
+    path('<int:Event_id>/', views.event, name='event'),
+    path('<int:Event_id>/riders/', views.riderlist, name='riderlist'),
+    path('<int:Event_id>/uploadride/ip/', views.ip, name='ip'),
+    path('<int:Event_id>/uploadride/', views.uploadride, name='uploadride'),
+    path('<int:Event_id>/uploadride/flying200/', views.flying200, name='flying200'),
+    path('<int:Event_id>/uploadride/teamsprint/', views.teamsprint, name='teamsprint'),
+    path('<int:Event_id>/uploadride/teampursuit/', views.teampursuit, name='teampursuit'),
+    path('<int:Event_id>/uploadride/tt/', views.tt, name='timetrial'),
+    path('<int:Event_id>/riders/<int:rider_id>/', views.detail, name='detail'),
 
     #Results
-    path('results/', views.result, name='result'),
-    path('results/ip/', views.result_ip, name='result_ip'),
-    path('results/tt/', views.result_tt, name='result_tt'),
-    path('results/flying200/', views.result_flying200, name='result_flying200'),
-    path('results/teampursuit/', views.result_teampursuit, name='result_teampursuit'),
-    path('results/teamsprint/', views.result_teamsprint, name='result_teamsprint'),
+    path('<int:Event_id>/results/', views.result, name='result'),
+    path('<int:Event_id>/results/ip/', views.result_ip, name='result_ip'),
+    path('<int:Event_id>/results/tt/', views.result_tt, name='result_tt'),
+    path('<int:Event_id>/results/flying200/', views.result_flying200, name='result_flying200'),
+    path('<int:Event_id>/results/teampursuit/', views.result_teampursuit, name='result_teampursuit'),
+    path('<int:Event_id>/results/teamsprint/', views.result_teamsprint, name='result_teamsprint'),
 
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
