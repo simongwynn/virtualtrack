@@ -12,6 +12,9 @@
     <br>
 
 <h1> {{ riders.number }}. {{ riders.name }} ({{ riders.state }})<img src="/static/web/{{ riders.state }}.svg"></h1>
+{% if events.event_option == "NJTS" %}
+    <h5>Team/Club Representing: {{ riders.representing }}</h5>
+    {% endif %}
 <h5>Velodrome: {{ riders.velodrome }}</h5>
     {% if riders.team_option == "Team" %}
     {% if events.team_option == "Nat" %}

@@ -25,6 +25,7 @@ class Event(models.Model):
 class rider(models.Model):
     number = models.IntegerField()
     name = models.CharField(max_length=50)
+    representing = models.CharField(max_length=100, blank=True)
     Individual = 'Ind'
     Team = 'Team'
     team_option_choices = [

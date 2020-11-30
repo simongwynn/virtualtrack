@@ -68,4 +68,6 @@ class TimeTrialForm(ModelForm):
 class AddRiderForm(ModelForm):
     class Meta:
         model = rider
-        fields = ['number', 'name', 'team_option', 'state','velodrome','team_member1','team_member2','team_member3','team_member4', 'agegroup', 'event']
+        fields = ['number', 'name', 'team_option', 'state','velodrome','team_member1','team_member2','team_member3','team_member4', 'agegroup', 'event', 'representing']
+        labels = {
+            'representing': 'NJTS Team/Club Representing'}

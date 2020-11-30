@@ -17,9 +17,10 @@
     <button class="tablinks" onclick="openCity(event, 'U15W')">Under 15 Women</button>
     <button class="tablinks" onclick="openCity(event, 'U17M')">Under 17 Men</button>
     <button class="tablinks" onclick="openCity(event, 'U17W')">Under 17 Women</button>
+        {% if event.event_option == "Nat" %}
     <button class="tablinks" onclick="openCity(event, 'U19M')">Under 19 Men</button>
     <button class="tablinks" onclick="openCity(event, 'U19W')">Under 19 Women</button>
-    {% if event.team_option == "Nat" %}
+
     <button class="tablinks" onclick="openCity(event, 'ELITEM')">Elite Men</button>
     <button class="tablinks" onclick="openCity(event, 'ELITEW')">Elite Women</button>
     <button class="tablinks" onclick="openCity(event, 'PARAB')">Para-Cycling B</button>
@@ -35,6 +36,9 @@
         <tr style = "color:black">
 <th style="width:50px">{{ forloop.counter }}.</th>
           <th style="width:250px"><a style = "color:black" href="/{{ event.id }}/riders/{{ result.id }}">{{ result.name }} ({{ result.state }}) </a> </th>
+          {% if event.event_option == "NJTS" %}
+          <th style="width:250px">{{ result.representing }}</th>
+          {% endif %}
           <th style="width:250px">{{ result.velodrome }}</th>
           <th>{{ result.tt200_time }} (actual time) <b>{{ result.tt200_adjusted_time }} (adjusted time)</b></th>
 </tr>
@@ -48,6 +52,9 @@
         <tr style = "color:black">
 <th style="width:50px">{{ forloop.counter }}.</th>
           <th style="width:250px"><a style = "color:black" href="/{{ event.id }}/riders/{{ result.id }}">{{ result.name }} ({{ result.state }}) </a> </th>
+          {% if event.event_option == "NJTS" %}
+          <th style="width:250px">{{ result.representing }}</th>
+          {% endif %}
           <th style="width:250px">{{ result.velodrome }}</th>
           <th>{{ result.tt200_time }} (actual time) <b>{{ result.tt200_adjusted_time }} (adjusted time)</b></th>
 </tr>
@@ -61,6 +68,9 @@
         <tr style = "color:black">
 <th style="width:50px">{{ forloop.counter }}.</th>
           <th style="width:250px"><a style = "color:black" href="/{{ event.id }}/riders/{{ result.id }}">{{ result.name }} ({{ result.state }}) </a> </th>
+          {% if event.event_option == "NJTS" %}
+          <th style="width:250px">{{ result.representing }}</th>
+          {% endif %}
           <th style="width:250px">{{ result.velodrome }}</th>
           <th>{{ result.tt200_time }} (actual time) <b>{{ result.tt200_adjusted_time }} (adjusted time)</b></th>
 </tr>
@@ -74,12 +84,16 @@
         <tr style = "color:black">
 <th style="width:50px">{{ forloop.counter }}.</th>
           <th style="width:250px"><a style = "color:black" href="/{{ event.id }}/riders/{{ result.id }}">{{ result.name }} ({{ result.state }}) </a> </th>
+          {% if event.event_option == "NJTS" %}
+          <th style="width:250px">{{ result.representing }}</th>
+          {% endif %}
           <th style="width:250px">{{ result.velodrome }}</th>
           <th>{{ result.tt200_time }} (actual time) <b>{{ result.tt200_adjusted_time }} (adjusted time)</b></th>
 </tr>
 {% endfor %}
       </table>
 </div>
+{% if event.event_option == "Nat" %}
 <div id="U19M" class="tabcontent">
 <h2>Under 19 Men</h2>
   <table>
@@ -106,7 +120,7 @@
 {% endfor %}
       </table>
 </div>
-{% if event.team_option == "Nat" %}
+
 <div id="ELITEM" class="tabcontent">
 <h2>Elite Men</h2>
   <table>

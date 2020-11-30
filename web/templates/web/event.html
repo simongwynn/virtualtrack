@@ -34,7 +34,7 @@
 {% for rider in riders %}
 {% if rider.user != None %}
 <div class="btn-group">
-    <a href="riders/{{ rider.number }}">
+    <a href="riders/{{ rider.id }}">
 <button>
 <img src="/static/web/{{ rider.state }}.svg" height = "50">  <b> {{ rider.number }}. {{ rider.name }} ({{ rider.state }}) - {{ rider.agegroup }}- {{ rider.velodrome }} </b> -
 {% if rider.ip_time_second != None %}

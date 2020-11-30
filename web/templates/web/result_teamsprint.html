@@ -12,7 +12,7 @@
     {% else %}
     <h2><u>Final Result</u></h2>
 {% endif %}
-{% if event.team_option == "Nat" %}
+{% if event.event_option == "Nat" %}
 <div class="tab">
   <button class="tablinks" onclick="openCity(event, 'U15M')" id="defaultOpen">Under 15 Men</button>
     <button class="tablinks" onclick="openCity(event, 'U15W')">Under 15 Women</button>
@@ -143,6 +143,7 @@
         <tr style = "color:black">
 <th style="width:50px">{% if result.ts_ineligable %} {% else %} {{ forloop.counter }}.{% endif %}</th>
           <th style="width:250px"><a style = "color:black" href="/riders/{{ result.number }}">{{ result.name }} ({{ result.state }}) </a> </th>
+          <th style="width:250px">{{ result.representing }}</th>
           <th style="width:250px">{{ result.velodrome }}</th>
           <th>{{ result.ts_time }} (actual time) <b>{{ result.ts_adjusted_time }} (adjusted time)</b></th>
 </tr>
